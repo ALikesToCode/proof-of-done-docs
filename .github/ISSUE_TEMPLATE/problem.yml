@@ -1,0 +1,39 @@
+name: Report a problem
+description: Something in Proof of Done does not work the way the documentation says.
+body:
+  - type: markdown
+    attributes:
+      value: This tracker is public. Leave out anything confidential. A work item key is enough.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it happened
+      options:
+        - The work item panel
+        - The project page
+        - The settings
+        - The workflow validator
+        - The Proof Verifier
+        - A coding agent's tool call
+        - Somewhere else
+    validations:
+      required: true
+  - type: input
+    id: message
+    attributes:
+      label: The exact message the app showed
+  - type: dropdown
+    id: project-type
+    attributes:
+      label: Project type
+      options:
+        - Company-managed
+        - Team-managed
+        - I don't know
