@@ -2,9 +2,13 @@ title: Proof of Done
 description: Documentation, support, privacy policy and terms of use for Proof of Done, an app for Jira Cloud.
 url: https://alikestocode.github.io
 baseurl: /proof-of-done-docs
+theme: null
 markdown: kramdown
 kramdown:
   input: GFM
+  toc_levels: 2..2
+plugins:
+  - jekyll-sitemap
 exclude:
   - README.md
   - SECURITY.md

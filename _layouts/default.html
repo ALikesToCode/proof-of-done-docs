@@ -1,11 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page.url == '/' %}{{ site.title }}: {{ page.title | downcase }}{% else %}{{ page.title }} | {{ site.title }}{% endif %}</title>
+  <meta name="color-scheme" content="light dark">
+  <title>{{ page.title }} | {{ site.title }} for Jira</title>
   <meta name="description" content="{{ page.description | default: site.description | escape }}">
+{%- if page.url == '/404.html' %}
+  <meta name="robots" content="noindex">
+{%- else %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+{%- endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{{ page.title }} | {{ site.title }} for Jira">
+  <meta property="og:description" content="{{ page.description | default: site.description | escape }}">
+  <meta property="og:image" content="{{ '/assets/img/social.png' | absolute_url }}">
+  <meta property="og:image:width" content="930">
+  <meta property="og:image:height" content="470">
+  <meta property="og:image:alt" content="The Proof of Done panel on a Jira work item, with one of three criteria proven.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="{{ '/assets/icon-32.png' | relative_url }}" sizes="32x32" type="image/png">
   <link rel="icon" href="{{ '/assets/icon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
 <body>
@@ -16,11 +34,11 @@
         <img src="{{ '/assets/icon.svg' | relative_url }}" alt="" width="28" height="28">
         <span>Proof of Done</span>
       </a>
-      <nav aria-label="Pages">
-        <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Documentation</a>
+      <nav aria-label="Site">
+        <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Get started</a>
+        <a href="{{ '/reference/' | relative_url }}"{% if page.url == '/reference/' %} aria-current="page"{% endif %}>Reference</a>
+        <a href="{{ '/agents/' | relative_url }}"{% if page.url == '/agents/' %} aria-current="page"{% endif %}>Agents</a>
         <a href="{{ '/support/' | relative_url }}"{% if page.url == '/support/' %} aria-current="page"{% endif %}>Support</a>
-        <a href="{{ '/privacy/' | relative_url }}"{% if page.url == '/privacy/' %} aria-current="page"{% endif %}>Privacy policy</a>
-        <a href="{{ '/terms/' | relative_url }}"{% if page.url == '/terms/' %} aria-current="page"{% endif %}>Terms of use</a>
       </nav>
     </div>
   </header>
@@ -29,6 +47,11 @@
   </main>
   <footer class="bottom">
     <div class="wrap">
+      <nav aria-label="Legal and contact">
+        <a href="{{ '/privacy/' | relative_url }}"{% if page.url == '/privacy/' %} aria-current="page"{% endif %}>Privacy policy</a>
+        <a href="{{ '/terms/' | relative_url }}"{% if page.url == '/terms/' %} aria-current="page"{% endif %}>Terms of use</a>
+        <a href="https://github.com/ALikesToCode/proof-of-done-docs/issues/new/choose">Report a problem</a>
+      </nav>
       <p>Abhyudaya Baiju Tharakan makes Proof of Done. Atlassian does not make the app and is not responsible for it.</p>
     </div>
   </footer>
