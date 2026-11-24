@@ -15,7 +15,7 @@ No lawyer has reviewed this text.
 
 ## 1. What you get
 
-Proof of Done is a free app for Jira Cloud. You may install it on your sites and use it for your own work. There is no fee and no paid tier.
+Proof of Done is a free app for Jira Cloud. You may install it on your sites and use it for your own work. The app has no fee and no paid tier. Jira, Rovo and outside coding tools have their own plans and terms.
 
 ## 2. Your data
 
@@ -23,7 +23,7 @@ The app keeps its data in Atlassian's Forge storage for your site. The [privacy 
 
 ## 3. Limits that come from the platform
 
-The app runs on Atlassian Forge. Forge sets [quotas and limits](https://developer.atlassian.com/platform/forge/platform-quotas-and-limits/) for every app, and Jira limits how often an app may call it. When one of these limits is reached, a page can load slowly or fail, a tool call from a coding agent can be refused, and the done gate can react late or not at all. Jira allows itself up to three minutes to tell the app that a work item changed.
+The app runs on Atlassian Forge. Forge sets [quotas and limits](https://developer.atlassian.com/platform/forge/platform-quotas-and-limits/) for every app, and Jira limits how often an app may call it. When one of these limits is reached, a page can load slowly or fail, a tool call from a coding agent can be refused, and the done gate can react late or not at all. Atlassian says a change to a work item can take up to three minutes to reach an app.
 
 The workflow validator, the MCP server, the Rovo skills and the Teamwork Graph API were Preview features at Atlassian on 24 November 2026. Atlassian can change or withdraw them, and the parts of the app that use them would change or stop with them.
 
@@ -45,7 +45,7 @@ Support is by the contact on the [support page]({{ '/support/' | relative_url }}
 
 You can stop at any time by uninstalling the app. Remove the app's validator from your workflows first. A validator that is left behind blocks its transition.
 
-I may stop offering the app. If I do, I will say so on its Marketplace listing.
+I may stop offering the app. If I do, I will say so on its Marketplace listing at least two months before I stop.
 
 ## 8. Atlassian
 
