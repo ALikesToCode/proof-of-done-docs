@@ -46,6 +46,27 @@ All of it is in Forge storage and in Jira, both run by Atlassian. The app has no
 
 The app writes short lines to the Forge log. They hold work item ids and keys, the name of a tool that ran and how long it took, and error messages. The app writes no criteria, evidence or verdict text and no account ids to the log. I can read these logs unless your admin has turned log access off for the app.
 
+## Data residency
+
+The app's database follows your Jira site. When your organisation pins Jira to a location, Atlassian keeps the app's Forge storage in that location, and moves it when Jira moves. Atlassian's page on [Forge data residency](https://developer.atlassian.com/platform/forge/data-residency/) lists the locations.
+
+In scope, kept in that location:
+
+- Done contracts and their criteria.
+- Evidence, with its summary, link, details and check results.
+- Verdicts and their reasoning.
+- The history of contract, evidence and verdict events.
+- Project settings and the rules for new contracts.
+- The Atlassian account ids stored with these entries.
+- The markers for sample work items.
+
+Out of scope, not pinned:
+
+- The log lines described above.
+- Data in transit while the app handles a request. Atlassian aims to run the app in the same location as Jira and says it may sometimes run it elsewhere.
+
+The `proof-of-done` property on a work item is Jira data. Jira stores it, and Jira's own data residency rules apply to it.
+
 ## Rovo and coding agents
 
 The Proof Verifier is a Rovo agent. When someone asks it to review evidence, Atlassian's Rovo reads that evidence through the app's tools. Atlassian's terms for Rovo cover that processing.

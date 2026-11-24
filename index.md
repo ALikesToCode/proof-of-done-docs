@@ -125,6 +125,7 @@ An agent can start a contract only from criteria that are already written down. 
 
 - Its scopes are `read:jira-work` and `write:jira-work`, and four Teamwork Graph scopes that only read: `read:graph:issue:jira`, `read:graph:pull-request:external`, `read:graph:build:external` and `read:graph:deployment:external`.
 - Contracts, evidence, verdicts and the event history live in Forge SQL, inside Atlassian's cloud. The app sends data nowhere else.
+- That storage follows the data residency setting of your Jira site. The privacy policy lists what is in scope.
 - It reads work items and the Teamwork Graph as the person who is using it, and asks Jira whether that person may edit them. As itself it comments on or moves a work item that was closed without proof, writes the work item property `proof-of-done` that JQL searches, and creates and deletes the sample work items.
 - When a work item is deleted, the app deletes everything it stored for it.
 
