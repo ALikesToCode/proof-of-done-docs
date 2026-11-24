@@ -3,6 +3,6 @@ contact_links:
   - name: Report a vulnerability
     url: https://github.com/ALikesToCode/proof-of-done-docs/security/advisories/new
     about: Report a suspected vulnerability in private. Do not open a public issue for it.
-  - name: Documentation
-    url: https://alikestocode.github.io/proof-of-done-docs/
-    about: The setup steps, and things to try first on the support page.
+  - name: Troubleshooting
+    url: https://alikestocode.github.io/proof-of-done-docs/support/#troubleshooting
+    about: The messages the app shows and what to do about each. Look here first.

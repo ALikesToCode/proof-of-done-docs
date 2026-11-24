@@ -1,0 +1,21 @@
+name: Report a mistake in the documentation
+description: A page is wrong, unclear or leaves something out.
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: This tracker is public. Leave out anything confidential.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The address of the page, or its title.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong or missing
+      description: Quote the sentence if you can, and say what you expected to read.
+    validations:
+      required: true

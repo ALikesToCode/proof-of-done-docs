@@ -37,3 +37,11 @@ body:
         - Company-managed
         - Team-managed
         - I don't know
+  - type: dropdown
+    id: install
+    attributes:
+      label: How the app was installed
+      options:
+        - From the Atlassian Marketplace
+        - From an install link
+        - I don't know
