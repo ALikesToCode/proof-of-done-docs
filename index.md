@@ -1,144 +1,120 @@
 ---
 layout: default
-title: Documentation
+title: Get started
 permalink: /
-description: How to set up and use Proof of Done, an app for Jira Cloud that closes a work item only on proof.
+description: How to install Proof of Done for Jira Cloud, load the sample, review evidence and prove a first criterion of a done contract.
 ---
 
 # Proof of Done for Jira
 
-Proof of Done gives a Jira work item a done contract, the list of criteria that have to hold before it closes. A criterion counts as proven only when there is evidence for it and someone other than the author of that evidence accepted it.
+Proof of Done gives a Jira work item a done contract. That is a list of criteria, and each criterion needs evidence that it is met. The app reports the work item as proven when every criterion has evidence that was accepted. The [rules of proof]({{ '/reference/' | relative_url }}#the-rules-of-proof) say who can accept what.
 
-It is built for teams that hand Jira work to AI coding agents. The agent reads the contract, does the work and submits evidence for each criterion. A person or a second agent judges the evidence. A work item that reaches Done without proof gets a comment, is moved back, or is refused by the workflow.
+The app is for teams that hand Jira work to AI coding agents. The agent reads the contract, does the work and submits evidence for each criterion. A person or the Proof Verifier accepts or rejects the evidence. The Proof Verifier is a Rovo agent that comes with the app, and Rovo is Atlassian's AI product. When someone closes a work item while its contract is not proven, the app comments on it or moves it back, and a workflow rule can refuse the close. By default the app leaves a work item that has no contract alone.
 
-On this page:
+<figure>
+  <img src="{{ '/assets/img/panel.png' | relative_url }}" width="930" height="562" alt="The Proof of Done panel on a Jira work item. It reads Partly proven, 1 of 3 criteria proven, and Not ready to close. Two criteria each have one piece of evidence that waits for a check, with a Review button under it.">
+  <figcaption>The panel on a sample work item. One criterion of three is proven. Two have evidence that waits for a review.</figcaption>
+</figure>
 
-- [What it does](#what-it-does)
-- [Before you install](#before-you-install)
-- [Get started](#get-started)
-- [Block the transition itself](#block-the-transition-itself)
-- [The Proof Verifier](#the-proof-verifier)
-- [The Teamwork Graph check](#the-teamwork-graph-check)
-- [Coding agents](#coding-agents)
-- [What it stores and what it may do](#what-it-stores-and-what-it-may-do)
-- [Uninstall](#uninstall)
-- [Preview features](#preview-features)
+<nav class="toc" aria-label="On this page" markdown="1">
+
+On this page
+
+- TOC
+{:toc}
+
+</nav>
 
 ## What it does
 
-- **Done contract.** The Proof of Done panel on a work item reads the acceptance criteria out of the description and offers them as a contract. People can add, change and remove criteria, and a project can set rules that every new contract starts with.
-- **Evidence with checks.** Evidence is a test run, a build, a pull request, a document, a person's attestation, or something else with a link or an excerpt. The app checks each piece the moment it arrives. A test run with failures, a link that is not a pull request, or a build with no result is turned away with the reason.
-- **A verdict from someone else.** Evidence that passes the checks waits for a review. A person or the Proof Verifier, a Rovo agent that comes with the app, accepts or rejects it with a reason. Nobody can accept evidence they typed in themselves, unless the project allows it, and then the proof is labelled self-reviewed.
-- **A second source for pull requests and builds.** When evidence links a pull request or a build, the app asks Jira's Teamwork Graph what the connected development tool reported for that work item. The reviewer sees whether the two agree.
-- **Done gate.** When a work item is closed with an unproven contract, the app comments on it or moves it back. A workflow validator can refuse the transition outright.
-- **Project meter.** One page per project says whether the work is climbing, busy but not climbing, or stalled, and lists every work item under contract with what it still needs.
-- **Tools for coding agents.** An MCP server lets an outside agent fetch the contract and a context pack and submit evidence. It has no tool that records a verdict.
-- **JQL.** `statusCategory = Done AND proofState != proven` finds closed work that lacks proof.
+- **Done contract.** The Proof of Done panel on a work item reads the acceptance criteria out of the description and offers them as a contract. People who may edit the work item can add, change and remove criteria. A project can set rules, which are criteria that go into each new contract unless the person who creates it chooses Start empty.
+- **Evidence with checks.** Evidence is a test run, a build, a pull request, a document, an attestation, or something else with a link or an excerpt. An attestation is a person's own statement that the criterion is met. The app checks the fields of each piece when it arrives. It does not open the link or run anything. A test run with a failed test does not pass, and neither does a build with no result. Evidence that does not pass cannot be accepted, and the app says why.
+- **A verdict on each piece.** Evidence that passes the checks waits for a review. A person who may edit the work item, or the Proof Verifier, accepts or rejects it. By default a person cannot accept evidence that they typed into the panel themselves. The same person can accept evidence that their own coding agent submitted, and can ask the Proof Verifier to judge evidence they typed in. The app counts both as a review by someone else. An attestation does not wait. The app accepts it when it arrives, and it proves the criterion when the person who attests is not the assignee of the work item.
+- **A second source for pull requests and builds.** When evidence links a pull request or a build, the app asks Jira's Teamwork Graph what the connected development tool reported for that work item. The reviewer sees a note that says whether the two agree.
+- **Done gate.** The app calls its reaction to a close without proof the done gate. When a work item is closed while a criterion of its contract is not proven, the app comments on it or moves it back. Both happen after the close. To have Jira refuse the close itself, add the app's validator to the workflow. A validator is a rule that Jira checks before it lets a work item change its status.
+- **Project meter.** Each project gets a Proof of Done page with a meter and a list. The meter says whether proven work leaves the project faster than new work arrives. It reads "Climbing" when more work items were closed with proof than were opened or reopened in the chosen period. The list shows the work items under contract that you can see, up to the 200 that changed most recently, with what each still needs.
+- **Tools for coding agents.** A coding agent connects through MCP, the protocol that agents use to call outside tools. It can read a work item and its contract, start a contract from criteria that are already written down, and submit evidence. It cannot attest, and it has no tool that accepts or rejects evidence.
+- **Search.** The app copies the state of each contract to fields that Jira's search can read. `statusCategory = Done AND proofState != proven` finds closed work whose contract is not fully proven.
+
+## Who it is for
+
+Use it when people or coding agents close Jira work items and you want each close backed by evidence and a recorded verdict. The app needs acceptance criteria to work with. It reads them from the description of a work item, or people type them into the panel.
+
+It is the wrong tool in these cases.
+
+- You want something that runs your tests. The app runs no tests and opens no links. It records what people and agents report, checks the fields of each report, such as the number of failed tests, and records what a reviewer decided.
+- You use Jira Data Center. The app runs on Jira Cloud only.
+- Your team writes work items in a language other than English. The app's pages are in English, and it finds criteria in a description only under English headings such as "Acceptance criteria".
 
 ## Before you install
 
 - Proof of Done is free and runs on Jira Cloud.
-- A Jira admin installs it. The app asks for four Teamwork Graph scopes, and Atlassian's documentation says an organization admin has to grant those. On a site you created yourself, you are one.
+- A Jira admin installs it. The app asks for permission to read and write work items, and for four permissions to read the Teamwork Graph. Atlassian's documentation says an organization admin has to grant the Teamwork Graph ones.
 - The Proof Verifier needs Rovo on your site. The rest of the app works without Rovo.
-- Jira's navigation now calls a project a space. The app and this page say project.
+- To work on a contract, a person needs permission to edit the work item. To change a project's settings or load the sample, a person has to be a project admin or a Jira admin.
+- Jira's navigation now calls a project a space. The app and these pages say project.
 
 ## Get started
 
-You need a Jira site where you are an admin, with one software project. Only step 6 needs Rovo.
+These steps take a Jira admin from the install to a first proven criterion. You need a Jira site where you are an admin, with one software project. Use a test project, because step 3 creates five work items in it, moves four of them to another status and comments on one. Only the Proof Verifier in step 7 needs Rovo, and that step says what to do without it.
 
-1. **Install the app** from the Atlassian Marketplace.
-2. **Load the sample.** Open the project and choose Proof of Done in the row of tabs under its name. When the row is full, Jira keeps it under More. Press Load sample data. The app creates five work items labelled `proof-of-done-sample`. One is closed and proven, one is closed without proof, two are in progress, and one has no contract yet. On a project with no other recent work the meter reads "Busy, not climbing", because one work item was closed with proof against five that were opened.
-3. **Review evidence.** Open "Sample: Export the audit log as CSV" and add the Proof of Done panel from the work item's apps button. Two pieces of evidence wait for a check. Press Review on one, read what it states and what the checks found, and accept or reject it with a reason.
-4. **Start a contract of your own.** Open any other work item and add the panel. If the description has a list under a heading such as "Acceptance criteria", the panel offers those criteria and one click creates the contract. If not, type the first criterion and press Add criterion. Jira asks you to allow access the first time, because the app acts as you.
-5. **Add evidence by hand.** Press Add evidence on a criterion and choose Test run. Enter a run with two failed tests, and the app turns it away with the reason. Set the failures to zero and it is stored.
-6. **Get a verdict.** Evidence you typed yourself needs a second reader. Press Ask Proof Verifier to hand it to the app's Rovo agent. Rovo lists the verdicts the agent wants to record, and you confirm them. The panel looks again every eight seconds, so each verdict shows up there with the agent's reasoning. On a site without Rovo, or to work as a team of one, open the Settings tab of the project's Proof of Done page and turn off "Evidence has to be accepted by someone other than the person who entered it".
-7. **Close something without proof.** Move a work item with an unproven contract to Done. The app comments on it within a few seconds and says what is missing. Jira allows itself up to three minutes to deliver the change. To have the work item moved back instead, change "When a work item is closed without proof" in the settings.
-8. **Search by proof.** Run `statusCategory = Done AND proofState != proven` in the work item search.
+1. **Install the app** from the Atlassian Marketplace. Atlassian is reviewing the app's listing, and the app is not public there until the review ends.
+2. **Open the project page.** Open the project and choose Proof of Done in the row of tabs under its name. When the row is full, Jira keeps the tab under More. The first time you open one of the app's pages, Jira asks you to allow access, because the app reads Jira as you. Choose Allow access.
+3. **Load the sample.** Press Load sample data. Only a project admin or a Jira admin sees that button. The app creates five work items, one after the other, and labels them `proof-of-done-sample`. One is closed and proven, one is closed without proof, two are in progress, and one has no contract yet. The table under the meter lists the four that have a contract. On a project with no other recent work the meter reads "Busy, not climbing", because one work item was closed with proof against five that were opened.
+4. **Review evidence.** In the table, open "Sample: Export the audit log as CSV". Jira shows the app's panel on a work item only after someone has added it there. Press the apps button, the icon of three squares and a plus sign to the right of the work item's title, and choose Proof of Done. The panel lists three criteria. One is proven, and two have evidence that waits for a check. Press Review on one. The dialog shows what the evidence states and what the app's checks found. Press Accept, or type a reason and press Reject.
 
-When you are done, press Remove sample data on the project page. It deletes only the work items the app created.
+   <figure>
+     <img src="{{ '/assets/img/apps-button.png' | relative_url }}" width="930" height="214" loading="lazy" alt="The top of a Jira work item named Sample: Export the audit log as CSV. To the right of the title is a row of three icon buttons. The first one, three small squares and a plus sign, is highlighted. Under the title, the Proof of Done panel reads Partly proven, 1 of 3 criteria proven.">
+     <figcaption>The apps button is the highlighted icon to the right of the title. The panel appears under the title once you have added it.</figcaption>
+   </figure>
+
+   <figure>
+     <img src="{{ '/assets/img/review-evidence.png' | relative_url }}" width="842" height="810" loading="lazy" alt="The Review evidence dialog. It shows the criterion, a test run with 9 passed and 0 failed, five lines under Checks the app ran, a Reason field, and the buttons Cancel, Reject and Accept.">
+     <figcaption>The Review evidence dialog. The checks show that the evidence is well-formed. Whether it proves the criterion is for the reviewer to decide.</figcaption>
+   </figure>
+5. **Start a contract of your own.** Open "Sample: Sign users out after 30 minutes without activity" and add the panel in the same way. This work item has no contract yet. Its description has a list under the heading "Acceptance criteria", so the panel offers three criteria. Press "Create contract with these 3 criteria". On a work item with no such list, type the first criterion and press Add criterion.
+6. **Add evidence by hand.** This step uses made-up numbers to show a check at work. Press Add evidence on the first criterion and choose Test run as the kind of evidence. Type "Session tests on the staging build" under What it shows, 7 under Tests passed and 2 under Tests failed, and press Add evidence. The app stores nothing and answers "2 tests failed, so this run proves nothing yet." Now enter the run as if every test had passed. Change Tests failed to 0 and press Add evidence again. The evidence now reads "Waiting for a check".
+7. **Get a verdict.** You typed that evidence yourself, so by default you cannot accept it. That is why its button reads Reject and not Review. There are three ways to go on.
+
+   - Ask a colleague who may edit the work item to open the panel, press Review and then Accept.
+   - If your site has Rovo, press Ask Proof Verifier. Rovo chat opens and lists the verdicts the agent wants to record. Tick the ones you agree with and press Confirm selected. After you press Ask Proof Verifier, the panel looks for new verdicts every eight seconds for five minutes. After that, press Refresh. The app counts the Proof Verifier's verdict as a review by someone else, also when the person who asks typed the evidence.
+   - To finish alone without Rovo, open the Settings tab on the project's Proof of Done page, clear "Evidence has to be accepted by someone other than the person who entered it" and press Save settings. Back on the work item, press Review and then Accept. The criterion now reads "Proven, self-reviewed". The setting applies to the whole project, so tick it again when you have finished testing.
+8. **Close something without proof.** Open "Sample: Upgrade the payment SDK to version 4". None of its three criteria has evidence. Move it to a done status. When Jira tells the app about the change, the app comments on the work item and says what is missing, here "3 of 3 criteria are not proven (3 with no evidence)." Atlassian says a change can take up to three minutes to reach an app. Leave the work item closed for the next step.
+9. **Search by proof.** Open Jira's work item search, switch it to JQL and run `statusCategory = Done AND proofState != proven`. The search lists the work item you closed in step 8 and the sample that was closed without proof.
+
+To have the app move such a work item back as well, open the Settings tab, choose "Move the work item back to the status it came from, and say why" under "When a work item is closed without proof" and press Save settings. The setting applies to closes that happen after you save it.
+
+When you have finished, open the project's Proof of Done page, press Remove sample data and confirm with Delete them. The app deletes the sample work items it created and what it stored for them, together with any subtasks that someone added under them. It deletes no other work item.
+
+If a step did not go as written, the [troubleshooting list]({{ '/support/' | relative_url }}#troubleshooting) has the messages the app shows and what to do about each.
 
 ## Block the transition itself
 
-The comment and the move back happen after the work item was closed. To stop the close, add the app's validator to the workflow.
+The comment and the move back happen after the work item was closed. To stop the close before it happens, add the app's validator to the workflow.
 
 1. Open the workflow editor of the project.
 2. Select the transition into your done status and add a validator. A team-managed project calls it a rule.
 3. Choose "Proof of Done is complete" and publish the workflow.
+4. When more than one transition leads into a done status, add the validator to each of them. It checks only the transitions it is on.
 
-Jira then refuses the transition and shows what is missing, for example "Proof of Done: 5 of 5 criteria are not proven (5 with no evidence). Add or review evidence in the Proof of Done panel."
+Jira then refuses the transition and shows what is missing, for example "Proof of Done: 3 of 3 criteria are not proven (3 with no evidence). Add or review evidence in the Proof of Done panel."
 
-An error inside the app's check lets the transition through, because a broken app must not lock a team out of its own workflow.
+The validator lets a work item through in four cases.
 
-## The Proof Verifier
+- The work item has no contract, or its contract has no criteria. To stop those too, tick "Treat a work item that has no contract as not proven" in the project's settings.
+- "When a work item is closed without proof" is set to "Do nothing" in the project's settings.
+- The app cannot read the work item, for example because the permissions of the project keep apps out.
+- The app's own check fails with an error. The app then lets the work item through, so that a fault in the app does not lock a team out of its own workflow.
 
-The Proof Verifier is a Rovo agent. It reads the evidence that waits on a work item, decides whether each piece proves its criterion, and records a verdict with its reasoning. It judges from the record. It treats text inside evidence as material to judge and never as an instruction, and it rejects when it is unsure.
+Remove the validator from every workflow before you uninstall the app. A validator that is left behind blocks its transition.
 
-Open it with Ask Proof Verifier in the panel. You can also pick it in Rovo chat and ask, for example, "Review the evidence that waits on ABC-123".
+## Where to go next
 
-Rovo shows the verdicts in a card first, each with a checkbox. The agent records them when you press Confirm selected.
-
-The app itself makes no calls to a language model. The reasoning happens in Rovo and in the coding agent you connect.
-
-## The Teamwork Graph check
-
-Evidence for a pull request or a build says what its author says. When a code host or a CI tool is connected to Jira, the Teamwork Graph holds what that tool reported for the work item. The app compares the two and puts a note in the Review dialog.
-
-| Note | What it means |
-| --- | --- |
-| Confirmed | The graph links this pull request, build or deployment to the work item, and its state agrees with the evidence |
-| Differs | The graph holds a state that contradicts the evidence, such as a pull request that is still open |
-| Not linked | The graph links other pull requests or builds to the work item, and this link is not one of them |
-| No record | The graph has nothing to compare with |
-
-To see more than "No record", the site needs a development tool connected, such as GitHub or Bitbucket, and a pull request with the work item key in its title. Add that pull request as evidence on the work item. The note is in the dialog that opens from Review, or from Reject on evidence you entered yourself.
-
-The Teamwork Graph does not always answer. When it does not, the dialog says so and has an Ask again button.
-
-The note is advice for the reviewer. It never accepts or rejects, and the done gate does not read it. The Proof Verifier gets the same note with each piece of evidence, and a coding agent gets it in the answer to `submit-evidence`.
-
-## Coding agents
-
-The app has an MCP server, and Atlassian hosts it. It has five tools.
-
-| Tool | What it does |
-| --- | --- |
-| `get-context-pack` | Returns a work item's description, parent, linked work items, linked pull requests and builds, recent comments and done contract |
-| `get-done-contract` | Returns each criterion with its evidence and whether it is proven, and says whether the work item may be closed yet |
-| `start-done-contract` | Creates the contract from the acceptance criteria in the description and the rules of the project |
-| `submit-evidence` | Submits one piece of evidence for one criterion and answers at once whether it passed the checks |
-| `list-unproven-work` | Lists the work items of a project that are not fully proven, with what each still needs, and the project meter |
-
-An agent can start a contract only from criteria that are already written down. It cannot record a verdict, so it cannot accept its own work. Access from outside Atlassian is off until an admin turns it on.
-
-1. A site admin opens Atlassian Administration, then Apps, Sites, the site, Connected apps, Proof of Done, and turns on its tools.
-2. Each person who will use an agent opens the Proof of Done panel on any work item once and chooses Allow access. The tools act as that person, so Jira decides what the agent may see and change.
-3. Connect the agent to `https://mcp.atlassian.com/forge/8e9618ee-0af4-4f2a-95af-436f5d28f0b9` and sign in when it asks. In Claude Code:
-
-   ```
-   claude mcp add --transport http proof-of-done https://mcp.atlassian.com/forge/8e9618ee-0af4-4f2a-95af-436f5d28f0b9
-   ```
-
-   Then run `/mcp` and sign in.
-4. Tell the agent the loop. It reads the contract before it starts, submits evidence for each criterion, and says "done" only when `get-done-contract` reports that the work item may be closed.
-
-## What it stores and what it may do
-
-- Its scopes are `read:jira-work` and `write:jira-work`, and four Teamwork Graph scopes that only read: `read:graph:issue:jira`, `read:graph:pull-request:external`, `read:graph:build:external` and `read:graph:deployment:external`.
-- Contracts, evidence, verdicts and the event history live in Forge SQL, inside Atlassian's cloud. The app sends data nowhere else.
-- That storage follows the data residency setting of your Jira site. The privacy policy lists what is in scope.
-- It reads work items and the Teamwork Graph as the person who is using it, and asks Jira whether that person may edit them. As itself it comments on or moves a work item that was closed without proof, writes the work item property `proof-of-done` that JQL searches, and creates and deletes the sample work items.
-- When a work item is deleted, the app deletes everything it stored for it.
-
-The [privacy policy]({{ '/privacy/' | relative_url }}) has the full list of what the app stores.
-
-## Uninstall
-
-Remove the "Proof of Done is complete" validator from every workflow before you uninstall the app. A validator that is left behind blocks its transition.
-
-Uninstalling removes the app's storage for your site. The `proof-of-done` property stays on your work items, because it is Jira data. A Jira admin can delete it through the REST API.
-
-## Preview features
-
-The workflow validator, the MCP server, the Rovo skills and the Teamwork Graph API were Preview features at Atlassian on 24 November 2026. Atlassian can change them, and the parts of the app that use them would change with them.
-
-If something does not work, the [support page]({{ '/support/' | relative_url }}) lists what to try first and how to reach me.
+- The [reference]({{ '/reference/' | relative_url }}) has the rules of proof, the checks for each kind of evidence, the settings, the limits and the search fields.
+- {: #the-proof-verifier} [The Proof Verifier]({{ '/reference/' | relative_url }}#the-proof-verifier) says what the app's Rovo agent reads and what the app holds it to.
+- {: #the-teamwork-graph-check} [The Teamwork Graph check]({{ '/reference/' | relative_url }}#the-teamwork-graph-check) explains the note on pull requests and builds.
+- {: #coding-agents} [Connect a coding agent]({{ '/agents/' | relative_url }}) explains how to turn the app's tools on, how to connect Claude Code or another agent, and what to tell the agent.
+- {: #what-it-stores-and-what-it-may-do} [What it stores and what it may do]({{ '/reference/' | relative_url }}#what-it-stores-and-what-it-may-do) lists the app's permissions and what it does as itself.
+- {: #uninstall} [Uninstall]({{ '/reference/' | relative_url }}#uninstall) lists what to do before you uninstall the app and what stays in Jira.
+- {: #preview-features} [Preview features]({{ '/reference/' | relative_url }}#preview-features) names the parts of the app that rest on Atlassian features in Preview.
+- The [support page]({{ '/support/' | relative_url }}) has troubleshooting, common questions and how to reach me.
