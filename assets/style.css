@@ -7,6 +7,7 @@
   --line: #dcdfe4;
   --link: #0c66e4;
   --code: #f1f2f4;
+  --accent: #1b7a4f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +19,7 @@
     --line: #38414a;
     --link: #579dff;
     --code: #2c333a;
+    --accent: #1b7a4f;
   }
 }
 
@@ -27,7 +29,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: 1rem;
+  scroll-padding-top: 1.5rem;
 }
 
 body {
@@ -40,7 +42,7 @@ body {
 }
 
 .wrap {
-  max-width: 40rem;
+  max-width: 76rem;
   margin: 0 auto;
   padding: 0 1.25rem;
 }
@@ -116,8 +118,9 @@ body {
   border-bottom-color: var(--link);
 }
 
-main {
-  padding-top: 2.2rem;
+/* The class on main would win over a plain main rule and take the padding away. */
+main.wrap {
+  padding-top: 2.4rem;
   padding-bottom: 3.5rem;
 }
 
@@ -303,11 +306,152 @@ th {
   margin: 0.4rem 0 0;
 }
 
-/* On a wide screen the widest picture may reach past the text column. */
-@media (min-width: 56rem) {
-  figure.wide {
-    margin-left: -6rem;
-    margin-right: -6rem;
+/* Text alone stays at a width that reads well. */
+main > * {
+  max-width: 44rem;
+}
+
+main > figure.wide,
+main > table,
+main > .hero,
+main > .toc {
+  max-width: none;
+}
+
+.hero {
+  margin-bottom: 1.5rem;
+}
+
+.hero figure {
+  margin-bottom: 0;
+}
+
+.lead {
+  font-size: 1.15rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.2rem 0 1.4rem;
+}
+
+.actions a {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.actions a:first-child {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+/* On a wide screen the contents list stands beside the text and stays in view, and the
+   text uses the width that a narrow column would leave empty. */
+@media (min-width: 62rem) {
+  main {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: 3.5rem;
+    align-content: start;
+  }
+
+  main > * {
+    grid-column: 2;
+    max-width: 50rem;
+  }
+
+  main > table,
+  main > figure.wide {
+    max-width: none;
+  }
+
+  main > .toc {
+    grid-column: 1;
+    grid-row: 1 / span 500;
+    align-self: start;
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    margin: 0.4rem 0 0;
+    padding: 0 0 0 1rem;
+    background: none;
+    border: 0;
+    border-left: 2px solid var(--line);
+    border-radius: 0;
+    font-size: 0.92rem;
+  }
+
+  main > .hero {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    column-gap: 3.5rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  main > .hero ~ .toc {
+    grid-row: 2 / span 500;
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .toc ul {
+    columns: 1;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .toc li {
+    margin-bottom: 0.45rem;
+  }
+
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+
+  /* Grid items keep both of their margins, so headings need less of their own here. */
+  h2 {
+    margin-top: 1.6rem;
+  }
+
+  main > h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  h3 {
+    margin-top: 0.7rem;
+  }
+
+  /* A page without a contents list keeps its text in the middle. */
+  main:not(:has(> .toc)) {
+    display: block;
+    max-width: 46rem;
   }
 }
 
@@ -352,15 +496,20 @@ th {
     display: none;
   }
 
-  main {
+  main.wrap {
+    display: block;
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
 
-  figure.wide {
-    margin-left: 0;
-    margin-right: 0;
+  main > * {
+    max-width: none;
   }
+
+  .actions {
+    display: none;
+  }
+
 
   /* Paper cannot follow a link, so the address is printed after it. */
   main a[href^="http"]::after {

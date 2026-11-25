@@ -11,6 +11,15 @@ description: The terms under which you may install and use Proof of Done.
 
 These terms are between you and Abhyudaya Baiju Tharakan, who makes Proof of Done and is "I" below. "You" is the organisation or person that installs or uses the app on a Jira Cloud site. Installing or using the app means you accept them.
 
+<nav class="toc" aria-label="On this page" markdown="1">
+
+On this page
+
+- TOC
+{:toc}
+
+</nav>
+
 ## 1. What you get
 
 Proof of Done is a free app for Jira Cloud. You may install it on your sites and use it for your own work. The app has no fee and no paid tier. Jira, Rovo and outside coding tools have their own plans and terms.
