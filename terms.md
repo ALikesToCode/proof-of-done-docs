@@ -7,11 +7,9 @@ description: The terms under which you may install and use Proof of Done.
 
 # Terms of use for Proof of Done
 
-<p class="updated">Last updated 24 November 2026.</p>
+<p class="updated">Last updated 25 November 2026.</p>
 
 These terms are between you and Abhyudaya Baiju Tharakan, who makes Proof of Done and is "I" below. "You" is the organisation or person that installs or uses the app on a Jira Cloud site. Installing or using the app means you accept them.
-
-No lawyer has reviewed this text.
 
 ## 1. What you get
 
@@ -39,7 +37,7 @@ To the extent the law allows, I am not liable for lost profit, lost data or any 
 
 ## 6. Support
 
-Support is by the contact on the [support page]({{ '/support/' | relative_url }}). I read every report and answer within five business days. There is no service level beyond that.
+Support is by the contact on the [support page]({{ '/support/' | relative_url }}). I read every report and answer within five business days. If Atlassian marks a request as critical, I answer within 24 hours. There is no service level beyond that.
 
 ## 7. Stopping
 
