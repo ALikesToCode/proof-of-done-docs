@@ -3,26 +3,18 @@ layout: default
 title: Get started
 permalink: /
 description: How to install Proof of Done for Jira Cloud, load the sample, review evidence and prove a first criterion of a done contract.
+heading: Jira work is done when every criterion is proven.
+lead: Proof of Done gives a Jira work item a done contract, a list of criteria that each need evidence. The app reports the work item as proven when every criterion has accepted evidence.
+actions: true
+flow: true
 ---
 
-<div class="hero">
-<div markdown="1">
-
-# Proof of Done for Jira
-
-Proof of Done gives a Jira work item a done contract. That is a list of criteria, and each criterion needs evidence that it is met. The app reports the work item as proven when every criterion has evidence that was accepted. The [rules of proof]({{ '/reference/' | relative_url }}#the-rules-of-proof) say who can accept what.
-{: .lead}
-
-<p class="actions"><a href="#get-started">Get started</a> <a href="{{ '/reference/' | relative_url }}">Read the reference</a> <a href="{{ '/agents/' | relative_url }}">Connect a coding agent</a></p>
-
-</div>
-<figure>
+<figure class="lead-figure">
   <img src="{{ '/assets/img/panel.png' | relative_url }}" width="930" height="562" alt="The Proof of Done panel on a Jira work item. It reads Partly proven, 1 of 3 criteria proven, and Not ready to close. Two criteria each have one piece of evidence that waits for a check, with a Review button under it.">
   <figcaption>The panel on a sample work item. One criterion of three is proven. Two have evidence that waits for a review.</figcaption>
 </figure>
-</div>
 
-The app is for teams that hand Jira work to AI coding agents. The agent reads the contract, does the work and submits evidence for each criterion. A person or the Proof Verifier accepts or rejects the evidence. The Proof Verifier is a Rovo agent that comes with the app, and Rovo is Atlassian's AI product. When someone closes a work item while its contract is not proven, the app comments on it or moves it back, and a workflow rule can refuse the close. By default the app leaves a work item that has no contract alone.
+The app is for teams that hand Jira work to AI coding agents. The agent reads the contract, does the work and submits evidence for each criterion. A person or the Proof Verifier accepts or rejects the evidence. The Proof Verifier is a Rovo agent that comes with the app, and Rovo is Atlassian's AI product. When someone closes a work item while its contract is not proven, the app comments on it or moves it back, and a workflow rule can refuse the close. By default the app leaves a work item that has no contract alone. The [rules of proof]({{ '/reference/' | relative_url }}#the-rules-of-proof) say who can accept what.
 
 <nav class="toc" aria-label="On this page" markdown="1">
 

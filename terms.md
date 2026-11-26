@@ -3,11 +3,10 @@ layout: default
 title: Terms of use
 permalink: /terms/
 description: The terms under which you may install and use Proof of Done.
+heading: Terms of use
+lead: The terms under which you may install and use Proof of Done.
+updated: 25 November 2026
 ---
-
-# Terms of use for Proof of Done
-
-<p class="updated">Last updated 25 November 2026.</p>
 
 These terms are between you and Abhyudaya Baiju Tharakan, who makes Proof of Done and is "I" below. "You" is the organisation or person that installs or uses the app on a Jira Cloud site. Installing or using the app means you accept them.
 

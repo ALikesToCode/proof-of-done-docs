@@ -3,11 +3,10 @@ layout: default
 title: Privacy policy
 permalink: /privacy/
 description: What Proof of Done for Jira stores and reads, where the data is kept, who can read it, how long it stays and how to remove it.
+heading: Privacy policy
+lead: What the app stores and reads, where the data is, who can read it, how long it stays and how it is removed.
+updated: 24 November 2026
 ---
-
-# Privacy policy for Proof of Done
-
-<p class="updated">Last updated 24 November 2026.</p>
 
 Proof of Done is an app for Jira Cloud. Abhyudaya Baiju Tharakan makes it and is "I" on this page. The page says what the app stores and reads, where the data is, who can read it, how long it stays and how it is removed.
 

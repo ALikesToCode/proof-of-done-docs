@@ -3,9 +3,9 @@ layout: default
 title: Coding agents
 permalink: /agents/
 description: How to connect Claude Code or another coding agent to Proof of Done for Jira through MCP, what the five tools do, what the agent receives and what to tell it.
+heading: Connect a coding agent
+lead: A coding agent reads the done contract of a work item and submits evidence through the app's MCP server. It has no tool that accepts or rejects evidence.
 ---
-
-# Connect a coding agent
 
 A done contract is the list of criteria that a work item has to meet, each with evidence. A coding agent such as Claude Code can read the contract and submit evidence itself. It does that through the app's MCP server, which Atlassian hosts. MCP is the protocol that coding agents use to call outside tools.
 

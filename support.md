@@ -3,9 +3,9 @@ layout: default
 title: Support
 permalink: /support/
 description: How to get help with Proof of Done for Jira. Contact, response time, troubleshooting, common questions and how to report a vulnerability.
+heading: Support
+lead: Open an issue or write to me. I answer within five business days.
 ---
-
-# Support for Proof of Done
 
 <nav class="toc" aria-label="On this page" markdown="1">
 

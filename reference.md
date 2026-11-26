@@ -3,9 +3,9 @@ layout: default
 title: Reference
 permalink: /reference/
 description: The rules of proof, the checks, the labels, the done gate, the meter, the settings, the limits and the search fields of Proof of Done for Jira, with what the app stores and how to uninstall it.
+heading: Reference
+lead: The rules of proof, the checks, the done gate, the settings and the limits, as the app applies them.
 ---
-
-# Reference for Proof of Done
 
 <nav class="toc" aria-label="On this page" markdown="1">
 
